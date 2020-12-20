@@ -1,0 +1,29 @@
+# kartoffel-client/docker-compose.yml
+
+version: "3.5"
+
+services:
+  kartoffel-user-svc:
+    restart: always
+    build: ./
+    depends_on:
+      - database
+    links:
+      - database
+    ports:
+      - 33033:33033
+    environment:
+      DB_HOST: "database"
+      DB_USER: "pguser"
+      DB_NAME: "kartoffel"
+      DB_PASSWORD: "secret"
+
+  database:
+    restart: always
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: "pguser"
+      POSTGRES_PASSWORD: "secret"
+      POSTGRED_DB: "kartoffel"
